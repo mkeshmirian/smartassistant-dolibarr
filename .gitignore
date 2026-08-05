@@ -1,0 +1,13 @@
+# Editor / IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Packaging
+dist/
+*.zip
+
+# OS
+Thumbs.db
+.DS_Store
