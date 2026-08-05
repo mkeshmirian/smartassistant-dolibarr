@@ -139,7 +139,7 @@ Full walkthrough: [`tutorial.md`](./tutorial.md)
 - **Publisher:** Integmia
 - **Website:** https://dolibarr.smartassistant.site
 - **Source code (GPLv3):** https://github.com/mkeshmirian/smartassistant-dolibarr
-- **Email:** *(to be confirmed)*
+- **Email:** *contact@integmia.org*
 
 ---
 

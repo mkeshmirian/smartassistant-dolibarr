@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Smart Assistant for Dolibarr — Tester Guide</title>
+<style>
+  :root { --brand:#2563eb; --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#64748b; --ok:#16a34a; --warn:#d97706; --err:#dc2626; --border:#e2e8f0; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+  header { background:linear-gradient(135deg,#0f172a,#1e3a8a); color:#fff; padding:48px 24px; text-align:center; }
+  header h1 { margin:0 0 8px; font-size:1.9rem; }
+  header p { margin:0; color:#cbd5e1; }
+  main { max-width:860px; margin:0 auto; padding:32px 24px 64px; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:24px 28px; margin:24px 0; box-shadow:0 1px 3px rgba(15,23,42,.06); }
+  h2 { font-size:1.3rem; margin:0 0 12px; color:var(--brand); border-bottom:2px solid var(--border); padding-bottom:8px; }
+  h3 { font-size:1.05rem; margin:20px 0 8px; }
+  ol,ul { padding-left:22px; }
+  li { margin:6px 0; }
+  code,pre { background:#f1f5f9; border-radius:6px; font-size:.9em; }
+  code { padding:2px 6px; }
+  pre { padding:12px 16px; overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; margin:12px 0; font-size:.92em; }
+  th,td { border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top; }
+  th { background:#f1f5f9; }
+  .ok { color:var(--ok); font-weight:600; }
+  .warn { color:var(--warn); font-weight:600; }
+  .err { color:var(--err); font-weight:600; }
+  .badge { display:inline-block; background:#e0e7ff; color:#3730a3; border-radius:999px; padding:2px 12px; font-size:.8rem; font-weight:600; }
+  .check { list-style:none; padding-left:0; }
+  .check li { padding-left:30px; position:relative; }
+  .check li::before { content:"☐"; position:absolute; left:0; color:var(--brand); font-weight:700; }
+  footer { text-align:center; color:var(--muted); padding:24px; font-size:.9rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Smart Assistant for Dolibarr — Tester Guide</h1>
+  <p>Reviewer walkthrough · Module version 1.0.0 · Integmia · <span class="badge">For reviewer use — please do not publish</span></p>
+</header>
+
+<main>
+
+  <div class="card">
+    <h2>1. Purpose</h2>
+    <p>This guide takes you through installing, enabling and verifying <strong>Smart Assistant</strong> —
+    a Dolibarr module that embeds an AI operations dashboard (monitoring agents, recommendations and
+    approved actions) inside Dolibarr. Expected time: <strong>10–15 minutes</strong>.</p>
+    <p><strong>Before you start, confirm you have:</strong></p>
+    <ul>
+      <li>A Dolibarr instance <strong>18+</strong> (tested on 23.x), PHP 7.0+, reachable over HTTPS</li>
+      <li>Dolibarr <strong>REST API enabled</strong> with a <strong>read-only API key</strong>
+        (Users &amp; Groups → user → Edit → <em>API key</em> field)</li>
+      <li>The module ZIP: <code>smartassistant-1.0.0.zip</code></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>2. Install the Module</h2>
+    <h3>Option A — Module installer (recommended)</h3>
+    <ol>
+      <li>Log in as administrator → <strong>Setup → Modules/Applications</strong></li>
+      <li>Click <strong>Install external module</strong> (top of the page)</li>
+      <li>Upload <code>smartassistant-1.0.0.zip</code></li>
+      <li><strong>Smart Assistant</strong> appears in the module list</li>
+    </ol>
+    <h3>Option B — Manual (FTP)</h3>
+    <ol>
+      <li>Copy the <code>smartassistant/</code> folder from the ZIP to <code>htdocs/custom/</code>
+        (result: <code>htdocs/custom/smartassistant/</code>)</li>
+      <li>Ensure files are readable by the web server (files 644, directories 755)</li>
+      <li>Reload <strong>Setup → Modules/Applications</strong></li>
+    </ol>
+    <p class="warn">If the Modules page renders blank after uploading, the upload was truncated —
+    re-upload, or use Option B and confirm <code>core/modules/modSmartAssistant.class.php</code> is
+    present (~5.4&nbsp;KB).</p>
+  </div>
+
+  <div class="card">
+    <h2>3. Enable the Module</h2>
+    <ol>
+      <li>In <strong>Setup → Modules/Applications</strong>, find <strong>Smart Assistant</strong></li>
+      <li>Click <strong>Enable</strong> — the module activates (green status)</li>
+      <li>A <strong>Smart Assistant</strong> top menu appears with <em>Dashboard</em> and <em>Setup</em></li>
+      <li>Verify permissions: <strong>Users &amp; Groups → Permissions</strong> shows two new entries:
+        <em>Read Smart Assistant dashboard</em> and <em>Manage Smart Assistant connection</em></li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>4. Connect to the Hosted Service</h2>
+    <ol>
+      <li>Open <strong>Smart Assistant → Setup</strong></li>
+      <li>Fill the form:</li>
+    </ol>
+    <table>
+      <tr><th>Field</th><th>Value</th></tr>
+      <tr><td>Hosted service URL</td><td><code>https://dolibarr.smartassistant.site</code></td></tr>
+      <tr><td>Dolibarr URL (this instance)</td><td><code>https://your-dolibarr.example.com</code></td></tr>
+      <tr><td>Dolibarr API key</td><td>the read-only key from §1</td></tr>
+    </table>
+    <ol start="3">
+      <li>Click <strong>Connect</strong></li>
+    </ol>
+    <p>The Connect action performs a <strong>live verification</strong>: the hosted service calls your
+    Dolibarr API once with the supplied key. On success the status flips to
+    <span class="ok">Connected</span>.</p>
+    <p class="err">Expected error: <em>"Connection failed: Dolibarr rejected the API key (HTTP 401)"</em>
+    when the key is invalid — verify the key has no leading/trailing spaces.</p>
+  </div>
+
+  <div class="card">
+    <h2>5. Verify the Dashboard</h2>
+    <ol>
+      <li>Open <strong>Smart Assistant → Dashboard</strong></li>
+      <li>The hosted dashboard embeds inside Dolibarr and shows:</li>
+    </ol>
+    <ul class="check">
+      <li><strong>Five agents</strong> (Revenue &amp; Sales Ops, Customer Success, Procurement &amp;
+        Inventory, Operations Orchestration, Business Intelligence) with last-run status</li>
+      <li><strong>Open Recommendations</strong> — prioritized findings with rationale</li>
+      <li><strong>Pending Actions</strong> — approval workflow (human-in-the-loop)</li>
+      <li><strong>Run all agents</strong> button — triggers an immediate analysis cycle</li>
+    </ul>
+    <p>Click <strong>Run all agents</strong>: agents execute against the connected Dolibarr (read-only)
+    and recommendations populate within a minute or two.</p>
+    <p class="ok">Acceptance: the dashboard loads, agents report <em>ok</em>, and at least one
+    recommendation or action appears after a run (on a fresh instance, agents may report "nothing
+    actionable" — that is expected behavior, not an error).</p>
+  </div>
+
+  <div class="card">
+    <h2>6. Disconnect / Reconnect</h2>
+    <ul>
+      <li><strong>Disconnect</strong> (Setup page) removes the token from Dolibarr; the Dashboard stops
+        loading and shows a "Not connected" notice</li>
+      <li><strong>Connect again</strong> re-issues a fresh token (old tokens are invalidated server-side)</li>
+      <li>After reconnecting, the Dashboard works again — this is the expected lifecycle</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>7. Troubleshooting</h2>
+    <table>
+      <tr><th>Symptom</th><th>Likely cause / fix</th></tr>
+      <tr><td>Modules page blank after upload</td><td>Truncated upload — re-upload or install via FTP (§2B)</td></tr>
+      <tr><td>Smart Assistant not listed</td><td>Folder not at <code>htdocs/custom/smartassistant/</code>, or files not readable (644/755)</td></tr>
+      <tr><td>Connect fails, HTTP 401</td><td>API key invalid — check for stray spaces; verify in the user record</td></tr>
+      <tr><td>Connect fails, network error</td><td>Hosted service unreachable — check HTTPS egress from your server</td></tr>
+      <tr><td>Dashboard: "Missing or invalid token"</td><td>Re-run Connect (tokens rotate on re-registration)</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>8. Contact</h2>
+    <p><strong>Publisher:</strong> Integmia · <strong>Website:</strong> https://dolibarr.smartassistant.site ·
+    <strong>Email:</strong> contact@integmia.org</p>
+    <p>Source code (GPLv3): <a href="https://github.com/mkeshmirian/smartassistant-dolibarr">github.com/mkeshmirian/smartassistant-dolibarr</a></p>
+  </div>
+
+</main>
+
+<footer>© 2026 Integmia — Smart Assistant for Dolibarr · GPLv3 module · hosted service is a separate SaaS product</footer>
+
+</body>
+</html>

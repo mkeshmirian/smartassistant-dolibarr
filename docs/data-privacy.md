@@ -149,7 +149,7 @@ Material changes will be announced via the DoliStore listing and the module repo
 
 - **Publisher:** Integmia
 - **Website:** https://dolibarr.smartassistant.site
-- **Email:** *(to be confirmed)*
+- **Email:** *contact@integmia.org*
 
 ---
 
