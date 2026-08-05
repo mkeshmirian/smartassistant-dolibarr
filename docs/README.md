@@ -43,8 +43,16 @@ smartassistant/
 ├── index.php                                  dashboard embed page
 ├── img/smartassistant.png                     module picto
 ├── langs/en_US/smartassistant.lang            English translations
-└── docs/                                      documentation (COPYING = GPLv3)
+└── docs/                                      documentation
 ```
+
+## Documentation
+
+- [Product definition](product-definition.md) — what the module is, who it is for, pricing
+- [Technical overview](overview.md) — architecture, connection flow, specs
+- [Data privacy & security](data-privacy.md) — data flows, storage, GDPR
+- [Installation & testing guide](tutorial.md) — reviewer walkthrough
+- [README.md](README.md) — quick start
 
 ## Roadmap (module side)
 
