@@ -52,7 +52,7 @@ customer configures one — the default integration uses a **read-only key**).
 
 | Data | Stored? | Details |
 |------|---------|---------|
-| Instance registration (Dolibarr URL, API key, token, versions, timestamps) | ✅ | Required to serve the dashboard and run agents; held in the service's database |
+| Instance registration (Dolibarr URL, API key, token, versions, timestamps) | ✅ | Required to serve the dashboard and run agents; stored in **Firestore**; the API key is **encrypted at rest (AES-256-GCM)** before storage |
 | Agent results (recommendations, suggested actions, org memory) | ✅ | The product's core output — shown on the dashboard; derived from business data |
 | Raw business records (contacts, invoices, products…) | ❌ | Read live per run; only compact derived context is used for analysis; raw records are not persisted |
 | LLM prompts/responses | ❌ | Sent transiently to the LLM provider for analysis (§6); not stored by the service |
@@ -70,7 +70,7 @@ deletion is on the roadmap). Logs rotate (≈5 MB per file) and old archives are
 - **Instance token:** random 48-hex-character token issued per registration; it scopes
   every API call and dashboard view to that instance. Re-connecting rotates the token
   (old tokens stop working immediately).
-- **Dolibarr API key:** stored to allow the agents to read data. A **read-only key** is
+- **Dolibarr API key:** stored to allow the agents to read data — **encrypted at rest with AES-256-GCM** (encryption key in Google Secret Manager). A **read-only key** is
   recommended and sufficient. It is never exposed to browsers or third parties and is
   not written to logs.
 - **Register endpoint:** rate-limited (10 attempts/minute/IP) to prevent abuse.
@@ -121,7 +121,7 @@ Dolibarr data; Integmia acts as processor for the purpose of providing the servi
 |------|---------|
 | **Transport** | TLS 1.2+ on all connections (browser↔service, service↔Dolibarr, service↔LLM) |
 | **Authentication** | Per-instance bearer tokens; rate-limited registration; no passwords collected |
-| **Secrets** | LLM key and defaults in Google Secret Manager; instance API keys not logged |
+| **Secrets** | LLM key and encryption key in Google Secret Manager; instance API keys encrypted at rest and never logged |
 | **Input validation** | All API inputs validated; server rejects malformed requests |
 | **Logging** | Request IDs for audit; payloads, tokens and keys never logged |
 | **Hosting** | Managed serverless platform (Cloud Run) with container isolation |
