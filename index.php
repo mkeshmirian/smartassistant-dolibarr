@@ -25,9 +25,12 @@
 $res = 0;
 if (file_exists('../main.inc.php')) { $res = @include '../main.inc.php'; }
 if (!$res && file_exists('../../main.inc.php')) { $res = @include '../../main.inc.php'; }
+if (!$res && file_exists('../../../main.inc.php')) { $res = @include '../../../main.inc.php'; }
 if (!$res) { die('Include of main fails'); }
 
 $langs->load('smartassistant@smartassistant');
+
+require_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';
 
 if (!$user->rights->smartassistant->read) {
 	accessforbidden();

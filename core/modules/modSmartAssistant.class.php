@@ -31,6 +31,11 @@ include_once DOL_DOCUMENT_ROOT.'/core/modules/DolibarrModules.class.php';
  */
 class modSmartAssistant extends DolibarrModules
 {
+	/** @var array<string,string> Module dependencies */
+	public $dependencies = array();
+	/** @var bool Can be disabled without data loss */
+	public $canbeunconfigured = true;
+
 	/**
 	 * Constructor. Define names, constants, directories, boxes, permissions.
 	 *
@@ -78,25 +83,23 @@ class modSmartAssistant extends DolibarrModules
 		// Boxes (none for now)
 		$this->boxes = array();
 
-		// Permissions
-		$this->rights = array(
-			0 => array(
-				'fk_permission' => 0,
-				'type' => 'r',
-				'langfile' => 'smartassistant@smartassistant',
-				'perms' => 'read',
-				'label' => 'SmartAssistantRead',
-				'default' => 1,
-			),
-			1 => array(
-				'fk_permission' => 0,
-				'type' => 'r',
-				'langfile' => 'smartassistant@smartassistant',
-				'perms' => 'setup',
-				'label' => 'SmartAssistantSetup',
-				'default' => 1,
-			),
-		);
+		// Permissions (modern numeric-index format used since Dolibarr 18+
+		// [0]=id [1]=label [2]=type [3]=default [4]=perms [5]=subperms)
+		// Right ids are in our reserved module range (194000-194019)
+		$this->rights = array();
+		$r = 0;
+		$this->rights[$r][0] = 194001; // id
+		$this->rights[$r][1] = 'SmartAssistantRead'; // label
+		$this->rights[$r][2] = 'r'; // type (deprecated)
+		$this->rights[$r][3] = 1; // default
+		$this->rights[$r][4] = 'read'; // perms
+
+		$r++;
+		$this->rights[$r][0] = 194002; // id
+		$this->rights[$r][1] = 'SmartAssistantSetup'; // label
+		$this->rights[$r][2] = 'r'; // type (deprecated)
+		$this->rights[$r][3] = 1; // default
+		$this->rights[$r][4] = 'setup'; // perms
 
 		// Menu entries: one top menu + dashboard/setup sub-menus
 		$this->menu = array(
@@ -144,53 +147,27 @@ class modSmartAssistant extends DolibarrModules
 
 	/**
 	 * Function called when module is enabled.
+	 * Delegates to the parent (Dolibarr 18+/23 API): creates menus, rights,
+	 * constants, boxes and data directories defined in the constructor.
 	 *
-	 * @return int 1 if OK, -1 if KO
+	 * @param string $options Options when enabling module ('', 'newboxdefonly', 'noboxes', 'menuonly')
+	 * @return int 1 if OK, 0 if KO
 	 */
-	public function init()
+	public function init($options = '')
 	{
-		$sql = array();
-
-		$this->tables = array();
-		$this->module_tables = array();
-		$this->module_const = array();
-
-		$result = $this->load_tables();
-		if ($result < 0) {
-			return -1;
-		}
-
-		$result = $this->load_menus();
-		if ($result < 0) {
-			return -1;
-		}
-
-		return 1;
+		return parent::init($options);
 	}
 
 	/**
 	 * Function called when module is disabled.
+	 * Delegates to the parent: removes menus, rights, constants and boxes
+	 * defined in the constructor. Data directories are not deleted.
 	 *
-	 * @return int 1 if OK, -1 if KO
+	 * @param string $options Options when disabling module
+	 * @return int 1 if OK, 0 if KO
 	 */
-	public function uninstall()
+	public function remove($options = '')
 	{
-		$sql = array();
-
-		$this->tables = array();
-		$this->module_tables = array();
-		$this->module_const = array();
-
-		$result = $this->load_tables();
-		if ($result < 0) {
-			return -1;
-		}
-
-		$result = $this->load_menus();
-		if ($result < 0) {
-			return -1;
-		}
-
-		return 1;
+		return parent::remove($options);
 	}
 }
