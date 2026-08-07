@@ -51,6 +51,7 @@ if (empty($token)) {
 	// server-side instead of passing it in the iframe URL (log leakage risk).
 	$iframeUrl = $hostedUrl.'/app/dolibarr'
 		.'?token='.urlencode($token)
+		.'&theme='.urlencode($conf->theme) // effective theme (global or per-user override) → dashboard matches CRM look
 		.'&user_id='.((int) $user->id)
 		.'&lang='.urlencode($langs->getDefaultLang());
 	print '<iframe src="'.htmlentities($iframeUrl).'" style="width:100%;height:calc(100vh - 180px);border:0;border-radius:8px;"></iframe>';
