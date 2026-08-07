@@ -41,8 +41,22 @@ $hostedUrl = dolibarr_get_const($db, 'SMARTASSISTANT_HOSTED_URL', $conf->entity)
 if (empty($hostedUrl)) { $hostedUrl = 'https://dolibarr.smartassistant.site'; }
 
 // Effective dark-mode setting (global or per-user): 0=disabled, 1=according to
-// browser, 2=always enabled — passed to the dashboard so it matches the CRM look.
+// browser, 2=always enabled - passed to the dashboard so it matches the CRM look.
 $darkMode = (int) getDolGlobalInt('THEME_DARKMODEENABLED');
+
+// Self-heal the top-bar menu icon: the menu 'prefix' is written to llx_menu
+// when the module is ENABLED, so file-only upgrades can leave a stale icon.
+// Fix it here so the dashboard page always keeps the white-line icon on the
+// dark menu bar (img/smartassistant-white.png) without needing re-enable.
+$menuIcon = '<span class=""><img src="'.(defined('DOL_URL_ROOT') ? DOL_URL_ROOT : '').'/custom/smartassistant/img/smartassistant-white.png" style="height:16px;width:16px;vertical-align:middle" alt=""></span>';
+$resql = $db->query('SELECT rowid, prefix FROM '.MAIN_DB_PREFIX.'menu WHERE module = '.$db->escape('smartassistant').' AND type = '.$db->escape('top').' AND entity IN (0, '.((int) $conf->entity).')');
+if ($resql) {
+	while ($obj = $db->fetch_object($resql)) {
+		if (strpos((string) $obj->prefix, 'smartassistant-white.png') === false) {
+			$db->query('UPDATE '.MAIN_DB_PREFIX.'menu SET prefix = '.$db->escape($menuIcon).' WHERE rowid = '.((int) $obj->rowid));
+		}
+	}
+}
 
 llxHeader('', $langs->trans('SmartAssistant'));
 
