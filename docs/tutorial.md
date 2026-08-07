@@ -69,8 +69,11 @@ instance, connecting it to the hosted service, and verifying it works.
      last run status
    - **Open Recommendations** (prioritized findings)
    - **Pending Actions** (approval workflow)
-3. Click **Run all agents** — agents execute immediately against your Dolibarr and new
+3. Click **Run all agents** - agents execute immediately against your Dolibarr and new
    recommendations appear (first run may take a minute)
+4. Items that target a specific record show a **View in Dolibarr** link - it opens the
+   related record (invoice, order, customer, ticket, product...) in a new browser tab, so
+   you can review and resolve the issue right in Dolibarr.
 
 ### Expected behavior
 

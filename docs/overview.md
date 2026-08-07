@@ -87,6 +87,12 @@ until then, contact the publisher to remove it.)*
    HTML with the token injected (the dashboard's API calls authenticate with it).
 4. The dashboard reads agent state via the service's API: agent run status, open
    recommendations, pending actions, org memory.
+5. Each recommendation/action that targets a specific record carries a **deep link** to
+   that record in the customer's Dolibarr UI (invoice, order, customer, ticket, product...)
+   - the dashboard shows a *View in Dolibarr* button that opens the record in a new tab.
+   The service resolves the correct UI paths by probing the instance's web root once and
+   caching the result, so installs with non-standard layouts (e.g. `facture` under
+   `compta/`) still link correctly.
 
 > **Security note (planned):** the instance token currently travels in the iframe URL.
 > A short-lived session-token exchange is on the roadmap to eliminate token exposure in
