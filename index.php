@@ -40,6 +40,10 @@ $token = dolibarr_get_const($db, 'SMARTASSISTANT_TOKEN', $conf->entity);
 $hostedUrl = dolibarr_get_const($db, 'SMARTASSISTANT_HOSTED_URL', $conf->entity);
 if (empty($hostedUrl)) { $hostedUrl = 'https://dolibarr.smartassistant.site'; }
 
+// Effective dark-mode setting (global or per-user): 0=disabled, 1=according to
+// browser, 2=always enabled — passed to the dashboard so it matches the CRM look.
+$darkMode = (int) getDolGlobalInt('THEME_DARKMODEENABLED');
+
 llxHeader('', $langs->trans('SmartAssistant'));
 
 if (empty($token)) {
@@ -52,6 +56,7 @@ if (empty($token)) {
 	$iframeUrl = $hostedUrl.'/app/dolibarr'
 		.'?token='.urlencode($token)
 		.'&theme='.urlencode($conf->theme) // effective theme (global or per-user override) → dashboard matches CRM look
+		.'&dark='.$darkMode // THEME_DARKMODEENABLED: 0/1/2 → off/according-to-browser/always
 		.'&user_id='.((int) $user->id)
 		.'&lang='.urlencode($langs->getDefaultLang());
 	print '<iframe src="'.htmlentities($iframeUrl).'" style="width:100%;height:calc(100vh - 180px);border:0;border-radius:8px;"></iframe>';

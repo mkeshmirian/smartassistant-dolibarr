@@ -59,7 +59,7 @@ class modSmartAssistant extends DolibarrModules
 		$this->descriptionlong = "SmartAssistantModuleLongDesc";
 		$this->editor_name = 'Integmia';
 		$this->editor_url = 'https://dolibarr.smartassistant.site';
-		$this->version = '1.0.1';
+		$this->version = '1.0.2';
 		$this->const_name = 'MAIN_MODULE_'.strtoupper($this->name);
 		$this->picto = 'smartassistant@smartassistant';
 		$this->module_parts = array('menus' => 1, 'theme' => 0, 'tpl' => 0, 'hooks' => 0, 'moduleforexternal' => 0, 'css' => 0, 'js' => 0, 'models' => 0, 'docs' => 0);
