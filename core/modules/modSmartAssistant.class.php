@@ -102,6 +102,9 @@ class modSmartAssistant extends DolibarrModules
 		$this->rights[$r][4] = 'setup'; // perms
 
 		// Menu entries: one top menu + dashboard/setup sub-menus
+		// Top-bar icon: eldy/augment render the menu 'prefix' — either a Font Awesome
+		// class (fa-xxx) or a raw HTML snippet. We use the module's own picto image.
+		$smartassistantTopIcon = '<span class=""><img src="'.(defined('DOL_URL_ROOT') ? DOL_URL_ROOT : '').'/custom/smartassistant/img/smartassistant.png" style="height:16px;width:16px;vertical-align:middle" alt=""></span>';
 		$this->menu = array(
 			0 => array(
 				'fk_menu' => 'fk_mainmenu=home',
@@ -112,7 +115,7 @@ class modSmartAssistant extends DolibarrModules
 				'url' => '/smartassistant/index.php',
 				'langs' => 'smartassistant@smartassistant',
 				'position' => 100,
-				'prefix' => 'fa-robot', // top-bar icon (Font Awesome 5); matches the module picto
+				'prefix' => $smartassistantTopIcon,
 				'enabled' => '$conf->smartassistant->enabled',
 				'user' => '0',
 				'target' => '',
