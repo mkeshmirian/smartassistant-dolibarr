@@ -64,7 +64,7 @@ if ($action == 'save') {
 		$payload = json_encode(array(
 			'dolibarr_url' => $dolibarrUrl,
 			'api_key' => $dolibarrApiKey,
-			'module_version' => '1.0.2',
+			'module_version' => '1.0.3',
 			'dolibarr_version' => DOL_VERSION,
 			'entity' => $conf->entity,
 		));

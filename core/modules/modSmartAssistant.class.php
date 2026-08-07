@@ -59,7 +59,7 @@ class modSmartAssistant extends DolibarrModules
 		$this->descriptionlong = "SmartAssistantModuleLongDesc";
 		$this->editor_name = 'Integmia';
 		$this->editor_url = 'https://dolibarr.smartassistant.site';
-		$this->version = '1.0.2';
+		$this->version = '1.0.3';
 		$this->const_name = 'MAIN_MODULE_'.strtoupper($this->name);
 		$this->picto = 'smartassistant@smartassistant';
 		$this->module_parts = array('menus' => 1, 'theme' => 0, 'tpl' => 0, 'hooks' => 0, 'moduleforexternal' => 0, 'css' => 0, 'js' => 0, 'models' => 0, 'docs' => 0);
@@ -112,6 +112,7 @@ class modSmartAssistant extends DolibarrModules
 				'url' => '/smartassistant/index.php',
 				'langs' => 'smartassistant@smartassistant',
 				'position' => 100,
+				'prefix' => 'fa-robot', // top-bar icon (Font Awesome 5); matches the module picto
 				'enabled' => '$conf->smartassistant->enabled',
 				'user' => '0',
 				'target' => '',
