@@ -46,13 +46,13 @@ $darkMode = (int) getDolGlobalInt('THEME_DARKMODEENABLED');
 
 // Self-heal the top-bar menu icon: the menu 'prefix' is written to llx_menu
 // when the module is ENABLED, so file-only upgrades can leave a stale icon.
-// Fix it here so the dashboard page always keeps the white-line icon on the
-// dark menu bar (img/smartassistant-white.png) without needing re-enable.
-$menuIcon = '<span class=""><img src="'.(defined('DOL_URL_ROOT') ? DOL_URL_ROOT : '').'/custom/smartassistant/img/smartassistant-white.png" style="height:16px;width:16px;vertical-align:middle" alt=""></span>';
+// Rewrites the DB entry to the canonical icon whenever it differs (icon file,
+// alignment, or future tweaks) - no re-enable needed.
+$menuIcon = '<span class=""><img src="'.(defined('DOL_URL_ROOT') ? DOL_URL_ROOT : '').'/custom/smartassistant/img/smartassistant-white.png" style="height:16px;width:16px;vertical-align:text-bottom;margin-top:2px" alt=""></span>';
 $resql = $db->query('SELECT rowid, prefix FROM '.MAIN_DB_PREFIX.'menu WHERE module = '.$db->escape('smartassistant').' AND type = '.$db->escape('top').' AND entity IN (0, '.((int) $conf->entity).')');
 if ($resql) {
 	while ($obj = $db->fetch_object($resql)) {
-		if (strpos((string) $obj->prefix, 'smartassistant-white.png') === false) {
+		if ($obj->prefix !== $menuIcon) {
 			$db->query('UPDATE '.MAIN_DB_PREFIX.'menu SET prefix = '.$db->escape($menuIcon).' WHERE rowid = '.((int) $obj->rowid));
 		}
 	}

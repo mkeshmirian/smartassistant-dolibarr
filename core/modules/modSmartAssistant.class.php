@@ -59,7 +59,7 @@ class modSmartAssistant extends DolibarrModules
 		$this->descriptionlong = "SmartAssistantModuleLongDesc";
 		$this->editor_name = 'Integmia';
 		$this->editor_url = 'https://dolibarr.smartassistant.site';
-		$this->version = '1.0.15';
+		$this->version = '1.0.16';
 		$this->const_name = 'MAIN_MODULE_'.strtoupper($this->name);
 		$this->picto = 'smartassistant@smartassistant';
 		$this->module_parts = array('menus' => 1, 'theme' => 0, 'tpl' => 0, 'hooks' => 0, 'moduleforexternal' => 0, 'css' => '/custom/smartassistant/css/smartassistant.css.php', 'js' => 0, 'models' => 0, 'docs' => 0);
@@ -106,7 +106,7 @@ class modSmartAssistant extends DolibarrModules
 		// class (fa-xxx) or a raw HTML snippet. The top bar is dark, so module icons
 		// there use WHITE lines (like the other module icons); the black-line picto
 		// (img/smartassistant.png) stays the module picto for light contexts.
-		$smartassistantTopIcon = '<span class=""><img src="'.(defined('DOL_URL_ROOT') ? DOL_URL_ROOT : '').'/custom/smartassistant/img/smartassistant-white.png" style="height:16px;width:16px;vertical-align:middle" alt=""></span>';
+		$smartassistantTopIcon = '<span class=""><img src="'.(defined('DOL_URL_ROOT') ? DOL_URL_ROOT : '').'/custom/smartassistant/img/smartassistant-white.png" style="height:16px;width:16px;vertical-align:text-bottom;margin-top:2px" alt=""></span>';
 		$this->menu = array(
 			0 => array(
 				'fk_menu' => 'fk_mainmenu=home',
