@@ -32,3 +32,15 @@ header('Content-Type: text/css');
 div.mainmenu.smartassistant {
 	background-image: none !important;
 }
+
+/* Align the menu icon with the theme's Font Awesome icons: the eldy theme
+ * styles ALL <img> with vertical-align: text-bottom + 8px/9px padding, while
+ * our inline style used middle (sits higher). Match the theme's text-bottom
+ * alignment and strip the generic img padding so the icon lines up with the
+ * other module icons. */
+div.mainmenu.smartassistant img {
+	padding: 0 !important;
+	width: 16px !important;
+	height: 16px !important;
+	vertical-align: text-bottom !important;
+}
