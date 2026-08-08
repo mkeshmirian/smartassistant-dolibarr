@@ -43,5 +43,5 @@ div.mainmenu.smartassistant img {
 	width: 16px !important;
 	height: 16px !important;
 	vertical-align: text-bottom !important;
-	margin-top: 2px !important;
+	margin-top: 5px !important;
 }

@@ -48,7 +48,7 @@ $darkMode = (int) getDolGlobalInt('THEME_DARKMODEENABLED');
 // when the module is ENABLED, so file-only upgrades can leave a stale icon.
 // Rewrites the DB entry to the canonical icon whenever it differs (icon file,
 // alignment, or future tweaks) - no re-enable needed.
-$menuIcon = '<span class=""><img src="'.(defined('DOL_URL_ROOT') ? DOL_URL_ROOT : '').'/custom/smartassistant/img/smartassistant-white.png" style="height:16px;width:16px;vertical-align:text-bottom;margin-top:2px" alt=""></span>';
+$menuIcon = '<span class=""><img src="'.(defined('DOL_URL_ROOT') ? DOL_URL_ROOT : '').'/custom/smartassistant/img/smartassistant-white.png" style="height:16px;width:16px;vertical-align:text-bottom;margin-top:5px" alt=""></span>';
 $resql = $db->query('SELECT rowid, prefix FROM '.MAIN_DB_PREFIX.'menu WHERE module = '.$db->escape('smartassistant').' AND type = '.$db->escape('top').' AND entity IN (0, '.((int) $conf->entity).')');
 if ($resql) {
 	while ($obj = $db->fetch_object($resql)) {
